@@ -4,6 +4,7 @@ import wikipedia
 import webbrowser
 import os
 import smtplib
+import openai
 import speech_recognition as sr
 
 # calling microsoft API which speek out.
@@ -109,3 +110,5 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
                 speak("Sorry Sir.. I am not able to send this email ")
+        elif 'please quit' in queary:
+            exit()
