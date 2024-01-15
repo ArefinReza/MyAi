@@ -4,7 +4,8 @@ import wikipedia
 import webbrowser
 import os
 import smtplib
-import openai
+
+import calculator
 import speech_recognition as sr
 
 # calling microsoft API which speek out.
@@ -12,7 +13,7 @@ engin = pyttsx3.init('sapi5')
 voices = engin.getProperty('voices')
 
 engin.setProperty('voice', voices[1].id)
-
+engin.setProperty('rate',170)
 # this fn speek out
 def speak(audio):
     engin.say(audio)
@@ -71,11 +72,15 @@ if __name__ == "__main__":
         # logic for executing tasks based o query 
         if 'wikipedia' in queary:
             speak('Searching Wikipedia....')
-            queary = queary.replace("wikipedia", "")
-            results = wikipedia.summary(queary, sentences = 2)
-            speak("According to Wikipedia ")
-            print(results)
-            speak(results)
+            try:
+                queary = queary.replace("wikipedia", "")
+                results = wikipedia.summary(queary, sentences = 100)
+                speak("According to Wikipedia ")
+                print(results)
+                speak(results)
+            except Exception as e:
+                print(e)
+                speak(f"Sorry sir! I could not find {queary} Wikipedia. Please try again !")
             
         elif 'youtube' in queary:
             webbrowser.open("youtube.com")
@@ -110,5 +115,11 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
                 speak("Sorry Sir.. I am not able to send this email ")
+        elif 'open calculator' in queary:
+            speak("Opening calculator ..")
+            calculator.calculator()
+        elif "calculator app" in queary:
+            calculator.open_calculator()
         elif 'please quit' in queary:
+            speak("Ok By Arefin !")
             exit()
